@@ -24,7 +24,6 @@ class MainWindow(QMainWindow):
         centralWidget.setLayout(self.layout)
         self.setCentralWidget(centralWidget)
 
-#Prueba
 class TabTareasPendientes(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
