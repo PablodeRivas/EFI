@@ -9,26 +9,29 @@ class Tarea(QWidget):
     visible: bool = True
     estado: bool = False
 
+    #Funcion que crea y agrega una label solo con un texto. Usada para ahorrar lineas de codigo
+    def addLabel(self, texto):
+        label = QLabel(texto)
+        self.layout.addWidget(label)
+
     def __post_init__(self):
         super().__init__()
         self.layout = layout = QHBoxLayout()
         
-        tituloWidget = QLabel(self.titulo)
-        layout.addWidget(tituloWidget)
+        #Lista que contiene los elementos importantes a representar, llamados en un ciclo for para imprimir en pantalla
+        elementosMostrar = [self.titulo, self.hora, self.fecha]
+        for elemento in elementosMostrar:
+            self.addLabel(elemento)
 
-        horaWidget = QLabel(self.hora)
-        layout.addWidget(horaWidget)
-        
-        fechaWidget = QLabel(self.fecha)
-        layout.addWidget(fechaWidget)
-
-        botonCompletar = QPushButton("✓")
+        selfbotonCompletar = botonCompletar = QPushButton("✓")
         botonCompletar.setFixedSize(40, 40)
         layout.addWidget(botonCompletar)
+        botonCompletar.clicked.connect(self.switchEstado)
 
-        botonCancelar = QPushButton("X")
+        selfbotonCancelar = botonCancelar = QPushButton("X")
         botonCancelar.setFixedSize(40, 40)
         layout.addWidget(botonCancelar)
+        botonCancelar.clicked.connect(self.switchVisible)
 
         self.setLayout(self.layout)
     
@@ -45,7 +48,7 @@ class Tarea(QWidget):
         self.visible = not self.visible
 
     def switchEstado(self):
-        self.Estado = not self.Estado
+        self.estado = not self.estado
 
     def getTitulo(self):
         return self.titulo
