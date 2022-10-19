@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QMainWindow, QApplication, QLabel, QPushButton
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton
+from PySide6.QtGui import QFont
 
 @dataclass
 class Tarea(QWidget):
@@ -9,19 +10,12 @@ class Tarea(QWidget):
     visible: bool = True
     estado: bool = False
 
-    #Funcion que crea y agrega una label solo con un texto. Usada para ahorrar lineas de codigo
-    def addLabel(self, texto):
-        label = QLabel(texto)
-        self.layout.addWidget(label)
-
     def __post_init__(self):
         super().__init__()
         self.layout = layout = QHBoxLayout()
         
-        #Lista que contiene los elementos importantes a representar, llamados en un ciclo for para imprimir en pantalla
-        elementosMostrar = [self.titulo, self.hora, self.fecha]
-        for elemento in elementosMostrar:
-            self.addLabel(elemento)
+        self.descripcion = descripcion = DescripcionTarea(self.titulo, self.hora, self.fecha)
+        layout.addWidget(descripcion)
 
         selfbotonCompletar = botonCompletar = QPushButton("✓")
         botonCompletar.setFixedSize(40, 40)
@@ -64,8 +58,26 @@ class Tarea(QWidget):
     def getEstado(self):
         return self.estado
 
+@dataclass
 class DescripcionTarea(QWidget):
-    pass
+    titulo: str
+    hora: str
+    fecha: str
+
+    #Funcion que crea y agrega una label solo con un texto. Usada para ahorrar lineas de codigo
+    def addLabel(self, texto, fuente, tamano):
+        label = QLabel(texto)
+        label.setFont(QFont(fuente, tamano))
+        self.layout.addWidget(label)
+
+    def __post_init__(self):
+        super().__init__()
+        self.layout = layout = QVBoxLayout()
+        self.addLabel(self.titulo, "Lucida Bright", 12)
+        tiempo = f"A las {self.hora} el día {self.fecha}"
+        self.addLabel(tiempo, "Franklin Gothic", 8)
+        self.setLayout(layout)
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
