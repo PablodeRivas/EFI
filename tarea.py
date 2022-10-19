@@ -17,15 +17,15 @@ class Tarea(QWidget):
         self.descripcion = descripcion = DescripcionTarea(self.titulo, self.hora, self.fecha)
         layout.addWidget(descripcion)
 
-        selfbotonCompletar = botonCompletar = QPushButton("✓")
+        self.botonCompletar = botonCompletar = QPushButton("✓")
         botonCompletar.setFixedSize(40, 40)
-        botonCompletar.setStyleSheet("background-color: green")
+        botonCompletar.setStyleSheet("background-color: green; color: white;font-weight:700")
         layout.addWidget(botonCompletar)
         botonCompletar.clicked.connect(self.switchEstado)
 
-        selfbotonCancelar = botonCancelar = QPushButton("X")
+        self.botonCancelar = botonCancelar = QPushButton("X")
         botonCancelar.setFixedSize(40, 40)
-        botonCancelar.setStyleSheet("background-color: red")
+        botonCancelar.setStyleSheet("background-color: maroon; color: white;font-weight:700")
         layout.addWidget(botonCancelar)
         botonCancelar.clicked.connect(self.switchVisible)
 
@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.layout = layout = QHBoxLayout()
-        t = Tarea("Sacar la basura", "16:00", "15/10/2022")
+        t = Tarea("Sacar a pasear al perro firulais", "16:00", "15/10/2022")
         layout.addWidget(t)
 
         centralWidget = QWidget()
@@ -93,7 +93,6 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication()
-    t = Tarea("Sacar la basura", "16:00", "15/10/2022")
     window = MainWindow()
     window.show()
     app.exec()
