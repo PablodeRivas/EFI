@@ -15,8 +15,7 @@ class BaseTareas(Database):
 
     def mostrarTodo(self):
         lista=super().select()
-        for valor in lista:
-           print(valor) 
+        return lista
 
    
 if __name__ == '__main__':

@@ -3,8 +3,9 @@ from PySide6.QtGui import QFont
 from PySide6.QtCore import Qt, QRect
 
 from baseTarea import BaseTareas
+from service import Service
 
-tareas = BaseTareas.mostrarTodo()
+serviceTareas = Service()
 
 class MainWindow(QMainWindow):
     def __init__(self):
