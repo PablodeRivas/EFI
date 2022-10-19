@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
 class Functions():
     def scrollArea(self,name):
         tasks_layout = QFormLayout()
-        #Hola que tal
+        
         groupBox = QGroupBox(name)
         groupBox.setLayout(tasks_layout)
 
