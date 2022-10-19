@@ -64,7 +64,8 @@ class Tarea(QWidget):
     def getEstado(self):
         return self.estado
 
-
+class DescripcionTarea(QWidget):
+    pass
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
