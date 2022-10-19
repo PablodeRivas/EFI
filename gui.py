@@ -3,8 +3,10 @@ from PySide6.QtGui import QFont
 from PySide6.QtCore import Qt, QRect
 
 from Service import Service
+from tarea import Tarea
 
 serviceTareas = Service()
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -36,10 +38,21 @@ class Functions():
         scroll.setWidget(groupBox)
         scroll.setWidgetResizable(True)
         scroll.setFixedHeight(450)
-        tareas = serviceTareas.getTareas()
-        for tarea in tareas:
-            frame = tarea
-            tasks_layout.addWidget(frame)
+        tarea = Tarea("Pasear al perro","10:00","12/10")
+        tarea2 = Tarea("Pasear al gato","10:00","12/10")
+        tarea3 = Tarea("Pasear al gato","10:00","12/10")
+        tarea4 = Tarea("Pasear al gato","10:00","12/10")
+        tarea5 = Tarea("Pasear al gato","10:00","12/10")
+        tarea6 = Tarea("Pasear al gato","10:00","12/10")
+        tarea7 = Tarea("Pasear al gato","10:00","12/10")
+        tasks_layout.addWidget(tarea)
+        tasks_layout.addWidget(tarea2)
+        tasks_layout.addWidget(tarea3)
+        tasks_layout.addWidget(tarea4)
+        tasks_layout.addWidget(tarea5)
+        tasks_layout.addWidget(tarea6)
+        tasks_layout.addWidget(tarea7)
+
 
         self.layout.addWidget(scroll)
 

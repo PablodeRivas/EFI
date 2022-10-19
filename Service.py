@@ -6,9 +6,15 @@ class Service():
     def __init__(self) -> None:    
         self.baseTareas = BaseTareas()
         self.listaBaseTareas = self.baseTareas.mostrarTodo()
-        self.listaTareas = []
 
     def getTareas(self):
+        listaTareas = []
         for tarea in self.listaBaseTareas:
             nuevaTarea = Tarea(tarea[0],tarea[1],tarea[2],True,tarea[3])
-            self.listaTareas.append(nuevaTarea)
+            listaTareas.append(nuevaTarea)
+        return listaTareas
+
+
+if __name__ == "__main__":
+    miServicio = Service()
+    print(miServicio.getTareas()[0].getTitulo())
