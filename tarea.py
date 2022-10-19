@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton, QFrame
 from PySide6.QtGui import QFont
 
 @dataclass

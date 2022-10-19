@@ -2,7 +2,6 @@ from PySide6.QtWidgets import QApplication, QDateEdit, QTimeEdit, QMainWindow, Q
 from PySide6.QtGui import QFont
 from PySide6.QtCore import Qt, QRect
 
-from baseTarea import BaseTareas
 from Service import Service
 
 serviceTareas = Service()
@@ -39,9 +38,8 @@ class Functions():
         scroll.setFixedHeight(450)
         tareas = serviceTareas.getTareas()
         for tarea in tareas:
-            frame = QFrame()
-            frame.setStyleSheet("background-color: 'lightgreen';margin:4px; min-height:50px;")
-            tasks_layout.addRow(tarea)
+            frame = tarea
+            tasks_layout.addWidget(frame)
 
         self.layout.addWidget(scroll)
 
