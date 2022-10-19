@@ -25,11 +25,13 @@ class Tarea(QWidget):
 
         selfbotonCompletar = botonCompletar = QPushButton("✓")
         botonCompletar.setFixedSize(40, 40)
+        botonCompletar.setStyleSheet("background-color: green")
         layout.addWidget(botonCompletar)
         botonCompletar.clicked.connect(self.switchEstado)
 
         selfbotonCancelar = botonCancelar = QPushButton("X")
         botonCancelar.setFixedSize(40, 40)
+        botonCancelar.setStyleSheet("background-color: red")
         layout.addWidget(botonCancelar)
         botonCancelar.clicked.connect(self.switchVisible)
 
