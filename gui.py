@@ -4,6 +4,7 @@ from PySide6.QtCore import Qt, QRect
 
 from Service import Service
 from tarea import Tarea
+from baseTarea import BaseTareas
 
 serviceTareas = Service()
 
@@ -12,6 +13,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initGUI()
+        
         
     def initGUI(self):
         self.layout = QVBoxLayout()
@@ -97,27 +99,34 @@ class interfaceAddTask(QWidget):
         layout.addLayout(buttons_layout)
 
         label = QLabel("Inserte en los campos los detalles de la tarea")
-        inputTitle = QLineEdit()
-        inputTitle.setPlaceholderText('Título de tarea')
+        self.inputTitle = QLineEdit()
+        self.inputTitle.setPlaceholderText('Título de tarea')
 
         labelTime = QLabel('¿Cuándo y a qué hora debes realizar esta tarea?')
-        inputDate = QDateEdit()
-        inputTime = QTimeEdit()
+        self.inputDate = QDateEdit()
+        self.inputTime = QTimeEdit()
         
-        buttonAdd = QPushButton('Agregar')
+        buttonAddDb = QPushButton('Agregar')
+        buttonAddDb.clicked.connect(self.addDb)
         buttonCancel = QPushButton('Cancelar')
         buttonCancel.clicked.connect(self.close)
 
         form_layout.addWidget(label)
-        form_layout.addWidget(inputTitle)
+        form_layout.addWidget(self.inputTitle)
         form_layout.addWidget(labelTime)
-        form_layout.addWidget(inputDate)
-        form_layout.addWidget(inputTime)       
+        form_layout.addWidget(self.inputDate)
+        form_layout.addWidget(self.inputTime)       
 
-        buttons_layout.addWidget(buttonAdd)
+        buttons_layout.addWidget(buttonAddDb)
         buttons_layout.addWidget(buttonCancel)
         
         self.setLayout(layout)
+
+    def addDb(self):
+        print('debugeado')
+        self.tareas=BaseTareas()
+        self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
+        self.close()
 
 class TabHistorial(QMainWindow, Functions):
     def __init__(self) -> None:
