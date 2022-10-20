@@ -124,6 +124,7 @@ class interfaceAddTask(QWidget):
 
     def addDb(self):
         print('debugeado')
+        print('nada')
         self.tareas=BaseTareas()
         self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
         self.close()
