@@ -9,19 +9,11 @@ class Service():
         self.listaBaseTareas = self.baseTareas.mostrarTodo()
 
     def getTareas(self):
-        listaTareas = []
-        for tarea in self.listaBaseTareas:
-            nuevaTarea = Tarea(tarea[1],tarea[2],tarea[3])
-            listaTareas.append(nuevaTarea)
-        return listaTareas
+        return self.baseTareas.mostrarTodo()
 
 
 if __name__ == "__main__":
     app = QApplication()
     miServicio = Service()
-    print(miServicio.getTareas()[0].getTitulo())
-    print(miServicio.getTareas()[0].getHora())
-    print(miServicio.getTareas()[0].getFecha())
-    print(miServicio.getTareas()[0].getEstado())
-    print(miServicio.getTareas()[0].getVisible())
+    print(miServicio.getTareas())
     app.exec()

@@ -31,32 +31,25 @@ class MainWindow(QMainWindow):
 
 class Functions():
     def scrollArea(self,name):
-        tasks_layout = QFormLayout()
+        self.tasks_layout = QFormLayout()
         
         groupBox = QGroupBox(name)
-        groupBox.setLayout(tasks_layout)
+        groupBox.setLayout(self.tasks_layout)
 
         scroll = QScrollArea()
         scroll.setWidget(groupBox)
         scroll.setWidgetResizable(True)
         scroll.setFixedHeight(450)
-        tarea = Tarea("Pasear al perro","10:00","12/10")
-        tarea2 = Tarea("Pasear al gato","10:00","12/10")
-        tarea3 = Tarea("Pasear al gato","10:00","12/10")
-        tarea4 = Tarea("Pasear al gato","10:00","12/10")
-        tarea5 = Tarea("Pasear al gato","10:00","12/10")
-        tarea6 = Tarea("Pasear al gato","10:00","12/10")
-        tarea7 = Tarea("Pasear al gato","10:00","12/10")
-        tasks_layout.addWidget(tarea)
-        tasks_layout.addWidget(tarea2)
-        tasks_layout.addWidget(tarea3)
-        tasks_layout.addWidget(tarea4)
-        tasks_layout.addWidget(tarea5)
-        tasks_layout.addWidget(tarea6)
-        tasks_layout.addWidget(tarea7)
-
-
+        self.getTareas()
         self.layout.addWidget(scroll)
+    
+    def getTareas(self):
+        objetosTareas= []
+        
+        for tarea in serviceTareas.getTareas():
+            objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3]))
+        for objTar in objetosTareas:
+            self.tasks_layout.addWidget(objTar)
 
 class TabTareasPendientes(QMainWindow,Functions):
     def __init__(self) -> None:
@@ -70,10 +63,13 @@ class TabTareasPendientes(QMainWindow,Functions):
         self.layout.addLayout(button_layout)
         
         buttonAdd = QPushButton("Agregar tarea")
+        buttonRefresh = QPushButton("Refrescar")
+        buttonRefresh.clicked.connect(self.getTareas)
         buttonAdd.setFont(QFont("Dosis",10))
         buttonAdd.clicked.connect(self.showAddTask)
         
         button_layout.addWidget(buttonAdd)
+        button_layout.addWidget(buttonRefresh)
 
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 

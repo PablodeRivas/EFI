@@ -18,13 +18,13 @@ class Tarea(QWidget):
         layout.addWidget(descripcion)
 
         self.botonCompletar = botonCompletar = QPushButton("✓")
-        botonCompletar.setFixedSize(40, 40)
+        botonCompletar.setFixedSize(30, 30)
         botonCompletar.setStyleSheet("background-color: green; color: white;font-weight:700")
         layout.addWidget(botonCompletar)
         botonCompletar.clicked.connect(self.switchEstado)
 
         self.botonCancelar = botonCancelar = QPushButton("X")
-        botonCancelar.setFixedSize(40, 40)
+        botonCancelar.setFixedSize(30, 30)
         botonCancelar.setStyleSheet("background-color: maroon; color: white;font-weight:700")
         layout.addWidget(botonCancelar)
         botonCancelar.clicked.connect(self.switchVisible)
@@ -76,7 +76,7 @@ class DescripcionTarea(QWidget):
     def __post_init__(self):
         super().__init__()
         self.layout = layout = QVBoxLayout()
-        self.addLabel(self.titulo, "Lucida Bright", 12)
+        self.addLabel(self.titulo, "Lucida Bright", 10)
         tiempo = f"A las {self.hora} el día {self.fecha}"
         self.addLabel(tiempo, "Franklin Gothic", 8)
         self.setLayout(layout)
