@@ -57,6 +57,9 @@ class Tarea(QWidget):
 
     def getEstado(self):
         return self.estado
+    
+    def getVisible(self):
+        return self.visible
 
 @dataclass
 class DescripcionTarea(QWidget):
