@@ -44,12 +44,17 @@ class Functions():
         self.layout.addWidget(scroll)
     
     def getTareas(self):
+        self.limpiarScrollArea()
         objetosTareas= []
-        
         for tarea in serviceTareas.getTareas():
             objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3]))
+            
         for objTar in objetosTareas:
             self.tasks_layout.addWidget(objTar)
+
+    def limpiarScrollArea(self):
+        for i in reversed(range(self.tasks_layout.count())): 
+            self.tasks_layout.itemAt(i).widget().setParent(None)
 
 class TabTareasPendientes(QMainWindow,Functions):
     def __init__(self) -> None:

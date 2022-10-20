@@ -1,6 +1,7 @@
 from dataclasses import dataclass
+import PySide6
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton, QFrame
-from PySide6.QtGui import QFont
+from PySide6.QtGui import QFont, QColor
 
 @dataclass
 class Tarea(QWidget):
@@ -13,22 +14,30 @@ class Tarea(QWidget):
     def __post_init__(self):
         super().__init__()
         self.layout = layout = QHBoxLayout()
+
         
         self.descripcion = descripcion = DescripcionTarea(self.titulo, self.hora, self.fecha)
         layout.addWidget(descripcion)
 
         self.botonCompletar = botonCompletar = QPushButton("✓")
         botonCompletar.setFixedSize(30, 30)
-        botonCompletar.setStyleSheet("background-color: green; color: white;font-weight:700")
+        botonCompletar.setStyleSheet("background-color: green; color: white;font-weight:700;border-radius:5px;")
         layout.addWidget(botonCompletar)
         botonCompletar.clicked.connect(self.switchEstado)
 
         self.botonCancelar = botonCancelar = QPushButton("X")
         botonCancelar.setFixedSize(30, 30)
-        botonCancelar.setStyleSheet("background-color: maroon; color: white;font-weight:700")
+        botonCancelar.setStyleSheet("background-color: maroon; color: white;font-weight:700;border-radius:5px;")
         layout.addWidget(botonCancelar)
         botonCancelar.clicked.connect(self.switchVisible)
 
+        #Seteo de color de fondo por tarea
+        self.setAutoFillBackground(True)
+        p = self.palette()
+        p.setColor(self.backgroundRole(), QColor(248, 249, 249))
+        self.setPalette(p)
+
+    
         self.setLayout(self.layout)
     
     def setTitulo(self,t):
@@ -79,6 +88,7 @@ class DescripcionTarea(QWidget):
         self.addLabel(self.titulo, "Lucida Bright", 10)
         tiempo = f"A las {self.hora} el día {self.fecha}"
         self.addLabel(tiempo, "Franklin Gothic", 8)
+        
         self.setLayout(layout)
 
 class MainWindow(QMainWindow):
@@ -91,6 +101,7 @@ class MainWindow(QMainWindow):
 
         centralWidget = QWidget()
         centralWidget.setLayout(layout)
+        
         self.setCentralWidget(centralWidget)
         
 
