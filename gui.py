@@ -141,6 +141,12 @@ class TabHistorial(QMainWindow, Functions):
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
         self.setCentralWidget(centralWidget)  
+    
+    def tabCompletas(self):
+        pass
+
+    def tabIncompletas(self):
+        pass
 
 if __name__ == '__main__':
     app = QApplication()
