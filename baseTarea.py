@@ -16,7 +16,7 @@ class BaseTareas(Database):
     def mostrarTodo(self):
         lista=super().select()
         return lista
-
+        
    
 if __name__ == '__main__':
     tarea = BaseTareas()

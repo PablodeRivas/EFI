@@ -3,8 +3,6 @@ import PySide6
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton, QFrame
 from PySide6.QtGui import QFont, QColor
 
-from baseTarea import BaseTareas
-
 @dataclass
 class Tarea(QWidget):
     titulo: str
@@ -51,12 +49,11 @@ class Tarea(QWidget):
         self.fecha = f
 
     def switchVisible(self):
+        self.setStyleSheet("background-color: red")
         self.visible = not self.visible
 
     def switchEstado(self):
         self.estado = not self.estado
-        tareas=BaseTareas()
-        tareas.update()
 
     def getTitulo(self):
         return self.titulo

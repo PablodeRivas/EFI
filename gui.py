@@ -84,7 +84,7 @@ class TabTareasPendientes(QMainWindow,Functions):
     def showAddTask(self):
         self.win = interfaceAddTask()
         self.win.show()
-
+        
 class interfaceAddTask(QWidget):
     def __init__(self) -> None:
         super().__init__()
@@ -130,6 +130,7 @@ class interfaceAddTask(QWidget):
         self.tareas=BaseTareas()
         self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
         self.close()
+        self.getTareas()
 
     def getCompletado(self):
         return self.completado
@@ -147,12 +148,6 @@ class TabHistorial(QMainWindow, Functions):
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
         self.setCentralWidget(centralWidget)  
-    
-    def tabCompletas(self):
-        pass
-
-    def tabIncompletas(self):
-        pass
 
 if __name__ == '__main__':
     app = QApplication()
