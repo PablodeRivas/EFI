@@ -16,7 +16,6 @@ class Tarea(QWidget):
     def __post_init__(self):
         super().__init__()
         self.layout = layout = QHBoxLayout()
-
         
         self.descripcion = descripcion = DescripcionTarea(self.titulo, self.hora, self.fecha)
         layout.addWidget(descripcion)

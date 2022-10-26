@@ -44,9 +44,10 @@ class Functions():
         self.layout.addWidget(scroll)
     
     def getTareas(self):
+
         self.limpiarScrollArea()
         objetosTareas= []
-        for tarea in serviceTareas.getTareas():
+        for tarea in serviceTareas.getTareasService():
             objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3]))
             
         for objTar in objetosTareas:
@@ -90,6 +91,7 @@ class interfaceAddTask(QWidget):
         self.initInterface()
     
     def initInterface(self):
+        self.completado = False
         self.setGeometry(650,300,100,100)
         self.setWindowTitle('Agregar tarea')
 
@@ -128,6 +130,10 @@ class interfaceAddTask(QWidget):
         self.tareas=BaseTareas()
         self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
         self.close()
+
+    def getCompletado(self):
+        return self.completado
+
 
 class TabHistorial(QMainWindow, Functions):
     def __init__(self) -> None:

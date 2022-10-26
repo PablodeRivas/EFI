@@ -8,7 +8,7 @@ class Service():
         self.baseTareas = BaseTareas()
         self.listaBaseTareas = self.baseTareas.mostrarTodo()
 
-    def getTareas(self):
+    def getTareasService(self):
         return self.baseTareas.mostrarTodo()
 
 
