@@ -1,3 +1,4 @@
+from cgitb import text
 from PySide6.QtWidgets import QApplication, QDateEdit, QTimeEdit, QMainWindow, QFormLayout, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QGroupBox, QTabWidget, QGridLayout, QScrollArea, QFrame
 from PySide6.QtGui import QFont
 from PySide6.QtCore import Qt, QRect
@@ -31,38 +32,38 @@ class MainWindow(QMainWindow):
 
 class Functions():
     def scrollArea(self,name):
-        tasks_layout = QFormLayout()
+        self.tasks_layout = QFormLayout()
         
         groupBox = QGroupBox(name)
-        groupBox.setLayout(tasks_layout)
+        groupBox.setLayout(self.tasks_layout)
 
         scroll = QScrollArea()
         scroll.setWidget(groupBox)
         scroll.setWidgetResizable(True)
         scroll.setFixedHeight(450)
-        tarea = Tarea("Pasear al perro","10:00","12/10")
-        tarea2 = Tarea("Pasear al gato","10:00","12/10")
-        tarea3 = Tarea("Pasear al gato","10:00","12/10")
-        tarea4 = Tarea("Pasear al gato","10:00","12/10")
-        tarea5 = Tarea("Pasear al gato","10:00","12/10")
-        tarea6 = Tarea("Pasear al gato","10:00","12/10")
-        tarea7 = Tarea("Pasear al gato","10:00","12/10")
-        tasks_layout.addWidget(tarea)
-        tasks_layout.addWidget(tarea2)
-        tasks_layout.addWidget(tarea3)
-        tasks_layout.addWidget(tarea4)
-        tasks_layout.addWidget(tarea5)
-        tasks_layout.addWidget(tarea6)
-        tasks_layout.addWidget(tarea7)
-
-
+  
         self.layout.addWidget(scroll)
+    
+    def getTareas(self):
+
+        self.limpiarScrollArea()
+        objetosTareas= []
+        for tarea in serviceTareas.getTareasService():
+            objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3]))
+            
+        for objTar in objetosTareas:
+            self.tasks_layout.addWidget(objTar)
+
+    def limpiarScrollArea(self):
+        for i in reversed(range(self.tasks_layout.count())): 
+            self.tasks_layout.itemAt(i).widget().setParent(None)
 
 class TabTareasPendientes(QMainWindow,Functions):
     def __init__(self) -> None:
         super().__init__()
         self.initTab()
         self.scrollArea('Tareas')
+        self.getTareas()
 
     def initTab(self):
         button_layout = QHBoxLayout()
@@ -70,10 +71,13 @@ class TabTareasPendientes(QMainWindow,Functions):
         self.layout.addLayout(button_layout)
         
         buttonAdd = QPushButton("Agregar tarea")
+        buttonRefresh = QPushButton("Refrescar")
+        buttonRefresh.clicked.connect(self.getTareas)
         buttonAdd.setFont(QFont("Dosis",10))
         buttonAdd.clicked.connect(self.showAddTask)
         
         button_layout.addWidget(buttonAdd)
+        button_layout.addWidget(buttonRefresh)
 
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
@@ -82,13 +86,14 @@ class TabTareasPendientes(QMainWindow,Functions):
     def showAddTask(self):
         self.win = interfaceAddTask()
         self.win.show()
-
+        
 class interfaceAddTask(QWidget):
     def __init__(self) -> None:
         super().__init__()
         self.initInterface()
     
     def initInterface(self):
+        self.completado = False
         self.setGeometry(650,300,100,100)
         self.setWindowTitle('Agregar tarea')
 
@@ -129,6 +134,10 @@ class interfaceAddTask(QWidget):
         self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
         self.close()
 
+    def getCompletado(self):
+        return self.completado
+
+
 class TabHistorial(QMainWindow, Functions):
     def __init__(self) -> None:
         super().__init__()
@@ -136,11 +145,43 @@ class TabHistorial(QMainWindow, Functions):
 
     def initTab(self):
         self.layout = QVBoxLayout()
-        self.scrollArea('Historial de tareas')
+        #self.scrollArea('Historial de tareas')
+
+        tabs = QTabWidget()
+
+        tabs.addTab(tabCompletas(),"Completas")
+        tabs.addTab(tabIncompletas(),"Incompletas")
+        self.layout.addWidget(tabs)
 
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
         self.setCentralWidget(centralWidget)  
+
+class tabCompletas(QMainWindow, Functions):
+    def __init__(self) -> None:
+        super().__init__()
+        self.initTab()
+
+    def initTab(self):
+        self.layout = QVBoxLayout()
+        self.scrollArea("")
+        
+        centralWidget = QWidget() 
+        centralWidget.setLayout(self.layout) 
+        self.setCentralWidget(centralWidget)
+
+class tabIncompletas(QMainWindow,Functions):
+    def __init__(self) -> None:
+        super().__init__()
+        self.initTab()
+
+    def initTab(self):
+        self.layout = QVBoxLayout()
+        self.scrollArea("")
+        
+        centralWidget = QWidget() 
+        centralWidget.setLayout(self.layout) 
+        self.setCentralWidget(centralWidget)
 
 if __name__ == '__main__':
     app = QApplication()
