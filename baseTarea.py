@@ -1,9 +1,9 @@
 from database import Database
-from tarea import Tarea
+
 
 class BaseTareas(Database):
     def __init__(self) -> None:
-        super().__init__("Tareas", "Titulo", "Hora", "Fecha", "Estado", "Cancelada")
+        super().__init__("Tareas", "Titulo", "Hora", "Fecha", "Completado", "Cancelada")
 
     def insert(self, *args):
         args = args + (False, False,)
@@ -18,11 +18,11 @@ class BaseTareas(Database):
         return lista
 
     def getIdByTitle(self,tituloTarea):
-        lista=super().select()
-        for tupla in lista:
-            if tituloTarea==tupla[1]:
-                idEncontrada=tupla[0]
-                return idEncontrada
+        tupla=super().select()
+        for tarea in tupla:
+            if tituloTarea==tarea[1]:
+                idEncontrada=tarea[0]
+                return idEncontrada 
         return "error"
         
 
@@ -30,6 +30,11 @@ class BaseTareas(Database):
         tupla=self.getEntrada(id)
         tupla=tupla[:-1]
         super().update(*tupla,True)
+
+    def completeTask(self,id):
+        tupla=self.getEntrada(id)
+        tupla=tupla[:-2]
+        super().update(*tupla,True,False)
   
    
 if __name__ == '__main__':

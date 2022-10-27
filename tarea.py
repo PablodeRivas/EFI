@@ -2,6 +2,8 @@ from dataclasses import dataclass
 import PySide6
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton, QFrame
 from PySide6.QtGui import QFont, QColor
+from baseTarea import BaseTareas
+
 
 @dataclass
 class Tarea(QWidget):
@@ -14,6 +16,7 @@ class Tarea(QWidget):
     def __post_init__(self):
         super().__init__()
         self.layout = layout = QHBoxLayout()
+        self.base=BaseTareas()
         
         self.descripcion = descripcion = DescripcionTarea(self.titulo, self.hora, self.fecha)
         layout.addWidget(descripcion)
@@ -49,11 +52,18 @@ class Tarea(QWidget):
         self.fecha = f
 
     def switchVisible(self):
-        self.setStyleSheet("background-color: red")
         self.visible = not self.visible
+        ide=self.base.getIdByTitle(self.titulo)
+        self.base.cancelTask(ide)
+        self.deleteLater()
+
 
     def switchEstado(self):
         self.estado = not self.estado
+        ide=self.base.getIdByTitle(self.titulo)
+        self.base.completeTask(ide)
+        self.deleteLater()
+        
 
     def getTitulo(self):
         return self.titulo
@@ -96,7 +106,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.layout = layout = QHBoxLayout()
-        t = Tarea("Sacar a pasear al perro firulais", "16:00", "15/10/2022")
+        t = Tarea("Comer carne", "16:00", "15/10/2022")
         layout.addWidget(t)
 
         centralWidget = QWidget()

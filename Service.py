@@ -11,6 +11,10 @@ class Service():
     def getTareasService(self):
         return self.baseTareas.mostrarTodo()
 
+    def getIdByTitle(self,title):
+        self.baseTareas.getIdByTitle(title)
+    
+    
 
 if __name__ == "__main__":
     app = QApplication()

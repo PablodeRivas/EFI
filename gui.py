@@ -41,6 +41,7 @@ class Functions():
         scroll.setWidget(groupBox)
         scroll.setWidgetResizable(True)
         scroll.setFixedHeight(450)
+        
   
         self.layout.addWidget(scroll)
     
@@ -49,10 +50,22 @@ class Functions():
         self.limpiarScrollArea()
         objetosTareas= []
         for tarea in serviceTareas.getTareasService():
-            objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3]))
+            if tarea[4] == 0 and tarea[5] == 0:
+                objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3]))
             
         for objTar in objetosTareas:
             self.tasks_layout.addWidget(objTar)
+
+    def getTareasCompletas(self):
+        self.limpiarScrollArea()
+        objetosTareas= []
+        for tarea in serviceTareas.getTareasService():
+            if tarea[4] == 1 and tarea[5] == 0:
+                objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3]))
+            
+        for objTar in objetosTareas:
+            self.layout.addWidget(objTar)
+
 
     def limpiarScrollArea(self):
         for i in reversed(range(self.tasks_layout.count())): 
@@ -165,10 +178,13 @@ class tabCompletas(QMainWindow, Functions):
     def initTab(self):
         self.layout = QVBoxLayout()
         self.scrollArea("")
+        self.getTareasCompletas()
         
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
         self.setCentralWidget(centralWidget)
+
+        
 
 class tabIncompletas(QMainWindow,Functions):
     def __init__(self) -> None:
