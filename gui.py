@@ -64,7 +64,17 @@ class Functions():
                 objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3]))
             
         for objTar in objetosTareas:
-            self.layout.addWidget(objTar)
+            self.tasks_layout.addWidget(objTar)
+
+    def getTareasIncompletas(self):
+        self.limpiarScrollArea()
+        objetosTareas= []
+        for tarea in serviceTareas.getTareasService():
+            if tarea[4] == 0 and tarea[5] == 1:
+                objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3]))
+            
+        for objTar in objetosTareas:
+            self.tasks_layout.addWidget(objTar)
 
 
     def limpiarScrollArea(self):
@@ -194,7 +204,8 @@ class tabIncompletas(QMainWindow,Functions):
     def initTab(self):
         self.layout = QVBoxLayout()
         self.scrollArea("")
-        
+        self.getTareasIncompletas()
+
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
         self.setCentralWidget(centralWidget)
