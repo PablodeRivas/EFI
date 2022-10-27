@@ -1,3 +1,4 @@
+from cgitb import text
 from PySide6.QtWidgets import QApplication, QDateEdit, QTimeEdit, QMainWindow, QFormLayout, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QGroupBox, QTabWidget, QGridLayout, QScrollArea, QFrame
 from PySide6.QtGui import QFont
 from PySide6.QtCore import Qt, QRect
@@ -40,7 +41,7 @@ class Functions():
         scroll.setWidget(groupBox)
         scroll.setWidgetResizable(True)
         scroll.setFixedHeight(450)
-        self.getTareas()
+  
         self.layout.addWidget(scroll)
     
     def getTareas(self):
@@ -62,6 +63,7 @@ class TabTareasPendientes(QMainWindow,Functions):
         super().__init__()
         self.initTab()
         self.scrollArea('Tareas')
+        self.getTareas()
 
     def initTab(self):
         button_layout = QHBoxLayout()
@@ -143,11 +145,43 @@ class TabHistorial(QMainWindow, Functions):
 
     def initTab(self):
         self.layout = QVBoxLayout()
-        self.scrollArea('Historial de tareas')
+        #self.scrollArea('Historial de tareas')
+
+        tabs = QTabWidget()
+
+        tabs.addTab(tabCompletas(),"Completas")
+        tabs.addTab(tabIncompletas(),"Incompletas")
+        self.layout.addWidget(tabs)
 
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
         self.setCentralWidget(centralWidget)  
+
+class tabCompletas(QMainWindow, Functions):
+    def __init__(self) -> None:
+        super().__init__()
+        self.initTab()
+
+    def initTab(self):
+        self.layout = QVBoxLayout()
+        self.scrollArea("")
+        
+        centralWidget = QWidget() 
+        centralWidget.setLayout(self.layout) 
+        self.setCentralWidget(centralWidget)
+
+class tabIncompletas(QMainWindow,Functions):
+    def __init__(self) -> None:
+        super().__init__()
+        self.initTab()
+
+    def initTab(self):
+        self.layout = QVBoxLayout()
+        self.scrollArea("")
+        
+        centralWidget = QWidget() 
+        centralWidget.setLayout(self.layout) 
+        self.setCentralWidget(centralWidget)
 
 if __name__ == '__main__':
     app = QApplication()
