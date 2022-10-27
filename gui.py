@@ -132,7 +132,6 @@ class interfaceAddTask(QWidget):
         self.tareas=BaseTareas()
         self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
         self.close()
-        self.getTareas()
 
     def getCompletado(self):
         return self.completado
