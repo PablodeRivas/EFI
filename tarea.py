@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from winreg import DeleteValue
 import PySide6
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton, QFrame
 from PySide6.QtGui import QFont, QColor
@@ -10,8 +11,8 @@ class Tarea(QWidget):
     titulo: str
     hora: str
     fecha: str
-    visible: bool = True
-    estado: bool = False
+    visible: int = 0
+    estado: int = 0
 
     def __post_init__(self):
         super().__init__()
@@ -53,12 +54,14 @@ class Tarea(QWidget):
 
     def switchVisible(self):
         self.visible = not self.visible
+        self.destruirBotones()
         ide=self.base.getIdByTitle(self.titulo)
         self.base.cancelTask(ide)
         self.deleteLater()
 
 
     def switchEstado(self):
+        self.destruirBotones()
         self.estado = not self.estado
         ide=self.base.getIdByTitle(self.titulo)
         self.base.completeTask(ide)
@@ -79,6 +82,10 @@ class Tarea(QWidget):
     
     def getVisible(self):
         return self.visible
+
+    def destruirBotones(self):
+        self.botonCancelar.deleteLater()
+        self.botonCompletar.deleteLater()
 
 @dataclass
 class DescripcionTarea(QWidget):
@@ -106,7 +113,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.layout = layout = QHBoxLayout()
-        t = Tarea("Comer carne", "16:00", "15/10/2022")
+        t = Tarea("sos re tonto naza", "16:00", "15/10/2022")
         layout.addWidget(t)
 
         centralWidget = QWidget()

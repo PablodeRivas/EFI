@@ -29,12 +29,12 @@ class BaseTareas(Database):
     def cancelTask(self,id):
         tupla=self.getEntrada(id)
         tupla=tupla[:-1]
-        super().update(*tupla,True)
+        super().update(*tupla,1)
 
     def completeTask(self,id):
         tupla=self.getEntrada(id)
         tupla=tupla[:-2]
-        super().update(*tupla,True,False)
+        super().update(*tupla,1,0)
   
    
 if __name__ == '__main__':
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     #tarea.insert("Pasear al perro","10:00","12/10")
     #tarea.insert("Hacer la comida","11:30","12/10")
     #print(tarea.getEntrada(1))
-    ide=tarea.getIdByTitle("Pasear al perro") 
+    ide=tarea.getIdByTitle("sos re tonto naza") 
     print(ide)
     print(tarea.getEntrada(ide))
     tarea.cancelTask(ide)
