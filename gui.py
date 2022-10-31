@@ -51,7 +51,7 @@ class Functions():
         objetosTareas= []
         for tarea in serviceTareas.getTareasService():
             if tarea[4] == 0 and tarea[5] == 0:
-                objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3]))
+                objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3], tarea[0]))
             
         for objTar in objetosTareas:
             self.tasks_layout.addWidget(objTar)
@@ -61,7 +61,7 @@ class Functions():
         objetosTareas= []
         for tarea in serviceTareas.getTareasService():
             if tarea[4] == 1 and tarea[5] == 0:
-                tareaCompleta = Tarea(tarea[1],tarea[2],tarea[3])
+                tareaCompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
                 tareaCompleta.destruirBotones()
                 objetosTareas.append(tareaCompleta)
             
@@ -73,7 +73,7 @@ class Functions():
         objetosTareas= []
         for tarea in serviceTareas.getTareasService():
             if tarea[4] == 0 and tarea[5] == 1:
-                tareaIncompleta = Tarea(tarea[1],tarea[2],tarea[3])
+                tareaIncompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
                 tareaIncompleta.destruirBotones()
                 objetosTareas.append(tareaIncompleta)
             

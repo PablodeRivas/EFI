@@ -1,6 +1,6 @@
 from database import Database
 
-
+#Clase diseñada para interactuar con la base de datos, principalmente en la clase tarea
 class BaseTareas(Database):
     def __init__(self) -> None:
         super().__init__("Tareas", "Titulo", "Hora", "Fecha", "Completado", "Cancelada")
@@ -17,6 +17,7 @@ class BaseTareas(Database):
         lista=super().select()
         return lista
 
+    #Funcion que obtiene la id de una tarea
     def getIdByTitle(self,tituloTarea):
         tupla=super().select()
         for tarea in tupla:
@@ -24,7 +25,6 @@ class BaseTareas(Database):
                 idEncontrada=tarea[0]
                 return idEncontrada 
         return "error"
-        
 
     def cancelTask(self,id):
         tupla=self.getEntrada(id)

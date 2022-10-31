@@ -5,12 +5,12 @@ from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QA
 from PySide6.QtGui import QFont, QColor
 from baseTarea import BaseTareas
 
-
 @dataclass
 class Tarea(QWidget):
     titulo: str
     hora: str
     fecha: str
+    id: int = 0
     visible: int = 0
     estado: int = 0
 
@@ -22,12 +22,14 @@ class Tarea(QWidget):
         self.descripcion = descripcion = DescripcionTarea(self.titulo, self.hora, self.fecha)
         layout.addWidget(descripcion)
 
+        #Creacion del boton para completar una tarea
         self.botonCompletar = botonCompletar = QPushButton("✓")
         botonCompletar.setFixedSize(30, 30)
         botonCompletar.setStyleSheet("background-color: green; color: white;font-weight:700;")
         layout.addWidget(botonCompletar)
         botonCompletar.clicked.connect(self.switchEstado)
 
+        #Creacion del boton para cancelar una tarea
         self.botonCancelar = botonCancelar = QPushButton("X")
         botonCancelar.setFixedSize(30, 30)
         botonCancelar.setStyleSheet("background-color: maroon; color: white;font-weight:700;")
@@ -39,7 +41,6 @@ class Tarea(QWidget):
         p = self.palette()
         p.setColor(self.backgroundRole(), QColor(248, 249, 249))
         self.setPalette(p)
-
     
         self.setLayout(self.layout)
     
@@ -52,21 +53,21 @@ class Tarea(QWidget):
     def setFecha(self,f):
         self.fecha = f
 
+    #Funcion utilizada para marcar una tarea como incompleta
+    #Updateo la base de datos y elimino el widget para que no aparezca en el programa principal
     def switchVisible(self):
         self.visible = not self.visible
-        self.destruirBotones()
-        ide=self.base.getIdByTitle(self.titulo)
-        self.base.cancelTask(ide)
+        #ide=self.base.getIdByTitle(self.titulo)
+        self.base.cancelTask(self.id)
         self.deleteLater()
 
-
+    #Funcion utilizada para marcar una tarea como completa
+    #Updateo la base de datos y elimino el widget para que no aparezca en el programa principal
     def switchEstado(self):
-        self.destruirBotones()
         self.estado = not self.estado
-        ide=self.base.getIdByTitle(self.titulo)
-        self.base.completeTask(ide)
+        #ide=self.base.getIdByTitle(self.titulo)
+        self.base.completeTask(self.id)
         self.deleteLater()
-        
 
     def getTitulo(self):
         return self.titulo
@@ -83,10 +84,12 @@ class Tarea(QWidget):
     def getVisible(self):
         return self.visible
 
+    #Función utilizada para elimina los botones antes de meterlos al historial de tareas
     def destruirBotones(self):
         self.botonCancelar.deleteLater()
         self.botonCompletar.deleteLater()
 
+#Clase para poner la descripcion de la tarea en el widget
 @dataclass
 class DescripcionTarea(QWidget):
     titulo: str
@@ -108,6 +111,7 @@ class DescripcionTarea(QWidget):
         
         self.setLayout(layout)
 
+#MainWindow solo es creada para hacer pruebas de la clase, nunca es usada en el programa principal
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
