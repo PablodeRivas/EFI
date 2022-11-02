@@ -3,12 +3,10 @@ from PySide6.QtWidgets import QApplication, QDateEdit, QTimeEdit, QMainWindow, Q
 from PySide6.QtGui import QFont
 from PySide6.QtCore import Qt, QRect
 
-from Service import Service
 from tarea import Tarea
 from baseTarea import BaseTareas
 
-serviceTareas = Service()
-
+bddTareas = BaseTareas()
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -49,7 +47,7 @@ class Functions():
 
         self.limpiarScrollArea()
         objetosTareas= []
-        for tarea in serviceTareas.getTareasService():
+        for tarea in bddTareas.getTareas():
             if tarea[4] == 0 and tarea[5] == 0:
                 objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3], tarea[0]))
             
@@ -59,7 +57,7 @@ class Functions():
     def getTareasCompletas(self):
         self.limpiarScrollArea()
         objetosTareas= []
-        for tarea in serviceTareas.getTareasService():
+        for tarea in bddTareas.getTareas():
             if tarea[4] == 1 and tarea[5] == 0:
                 tareaCompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
                 tareaCompleta.destruirBotones()
@@ -71,7 +69,7 @@ class Functions():
     def getTareasIncompletas(self):
         self.limpiarScrollArea()
         objetosTareas= []
-        for tarea in serviceTareas.getTareasService():
+        for tarea in bddTareas.getTareas():
             if tarea[4] == 0 and tarea[5] == 1:
                 tareaIncompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
                 tareaIncompleta.destruirBotones()

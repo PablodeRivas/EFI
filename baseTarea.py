@@ -13,7 +13,7 @@ class BaseTareas(Database):
         lista = super().select()
         return lista[id-1]
 
-    def mostrarTodo(self):
+    def getTareas(self):
         lista=super().select()
         return lista
 
