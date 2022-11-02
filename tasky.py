@@ -1,7 +1,6 @@
 from cgitb import text
 from PySide6.QtWidgets import QApplication, QDateEdit, QTimeEdit, QMainWindow, QFormLayout, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QGroupBox, QTabWidget, QGridLayout, QScrollArea, QFrame
 from PySide6.QtGui import QFont
-from PySide6.QtCore import Qt, QRect
 
 from tarea import Tarea
 from baseTarea import BaseTareas
@@ -12,7 +11,6 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initGUI()
-        
         
     def initGUI(self):
         self.layout = QVBoxLayout()
@@ -39,17 +37,16 @@ class Functions():
         scroll.setWidget(groupBox)
         scroll.setWidgetResizable(True)
         scroll.setFixedHeight(450)
-        
   
         self.layout.addWidget(scroll)
     
     def getTareas(self):
-
         self.limpiarScrollArea()
         objetosTareas= []
         for tarea in bddTareas.getTareas():
             if tarea[4] == 0 and tarea[5] == 0:
-                objetosTareas.append(Tarea(tarea[1],tarea[2],tarea[3], tarea[0]))
+                tareaCompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
+                objetosTareas.append(tareaCompleta)
             
         for objTar in objetosTareas:
             self.tasks_layout.addWidget(objTar)
@@ -153,8 +150,6 @@ class interfaceAddTask(QWidget):
         self.setLayout(layout)
 
     def addDb(self):
-        print('debugeado')
-        print('nada')
         self.tareas=BaseTareas()
         self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
         self.close()
