@@ -42,11 +42,13 @@ if __name__ == '__main__':
     #tarea.insert("Pasear al perro","10:00","12/10")
     #tarea.insert("Hacer la comida","11:30","12/10")
     #print(tarea.getEntrada(1))
-    ide=tarea.getIdByTitle("sos re tonto naza") 
-    print(ide)
-    print(tarea.getEntrada(ide))
-    tarea.cancelTask(ide)
-    print(tarea.getEntrada(ide))
+    #ide=tarea.getIdByTitle("sos re tonto naza") 
+    #print(ide)
+    #print(tarea.getEntrada(ide))
+    for i in range(19,46):
+        tarea.delete(i)
+    #tarea.cancelTask(ide)
+    #print(tarea.getEntrada(ide))
     #id = input("Que tarea desea borrar? ")
     #tarea.delete(1)
     #tarea.update(4, "Lavar los platos", "14:30","12/10",False)#al updatear hace falta el Bool

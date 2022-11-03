@@ -10,7 +10,7 @@ class Tarea(QWidget):
     titulo: str
     hora: str
     fecha: str
-    id: int = 0
+    id: int = 1
     visible: int = 0
     estado: int = 0
 
@@ -57,7 +57,6 @@ class Tarea(QWidget):
     #Updateo la base de datos y elimino el widget para que no aparezca en el programa principal
     def switchVisible(self):
         self.visible = not self.visible
-        #ide=self.base.getIdByTitle(self.titulo)
         self.base.cancelTask(self.id)
         self.deleteLater()
 
@@ -65,7 +64,6 @@ class Tarea(QWidget):
     #Updateo la base de datos y elimino el widget para que no aparezca en el programa principal
     def switchEstado(self):
         self.estado = not self.estado
-        #ide=self.base.getIdByTitle(self.titulo)
         self.base.completeTask(self.id)
         self.deleteLater()
 
@@ -88,6 +86,15 @@ class Tarea(QWidget):
     def destruirBotones(self):
         self.botonCancelar.deleteLater()
         self.botonCompletar.deleteLater()
+
+        self.botonRepetir = botonRepetir = QPushButton("♻️")
+        botonRepetir.setFixedSize(30, 30)
+        botonRepetir.setStyleSheet("color: red; font-weight:700;")
+        self.layout.addWidget(botonRepetir)
+        botonRepetir.clicked.connect(self.repetirTarea)
+
+    def repetirTarea(self):
+        self.base.insert(self.titulo, self.hora, self.fecha)
 
 #Clase para poner la descripcion de la tarea en el widget
 @dataclass
@@ -118,6 +125,7 @@ class MainWindow(QMainWindow):
 
         self.layout = layout = QHBoxLayout()
         t = Tarea("sos re tonto naza", "16:00", "15/10/2022")
+        t.destruirBotones()
         layout.addWidget(t)
 
         centralWidget = QWidget()
