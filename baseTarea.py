@@ -11,7 +11,9 @@ class BaseTareas(Database):
 
     def getEntrada(self, id):
         lista = super().select()
-        return lista[id-1]
+        for tarea in lista:
+            if tarea[0] == id:
+                return tarea
 
     def getTareas(self):
         lista=super().select()

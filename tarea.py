@@ -175,7 +175,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.layout = layout = QHBoxLayout()
-        t = Tarea("sos re tonto naza", "16:00", "15/10/2022")
+        t = Tarea("Take out the trash", "16:00", "15/10/2022")
         t.destruirBotones()
         layout.addWidget(t)
 
