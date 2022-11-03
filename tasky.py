@@ -1,6 +1,6 @@
-from cgitb import text
-from PySide6.QtWidgets import QApplication, QDateEdit, QTimeEdit, QMainWindow, QFormLayout, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QGroupBox, QTabWidget, QGridLayout, QScrollArea, QFrame
-from PySide6.QtGui import QFont
+from PySide6.QtWidgets import QApplication,QStackedLayout, QDateEdit, QTimeEdit, QMainWindow, QFormLayout, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QGroupBox, QTabWidget, QGridLayout, QScrollArea, QFrame
+from PySide6.QtGui import QFont, QIcon
+from PySide6.QtCore import Qt, QSize
 
 from tarea import Tarea
 from baseTarea import BaseTareas
@@ -14,17 +14,40 @@ class MainWindow(QMainWindow):
         
     def initGUI(self):
         self.layout = QVBoxLayout()
+        self.headerLayout = QHBoxLayout()
+        self.tasksLayout= QVBoxLayout()
+        self.layout.addLayout(self.headerLayout)
+        self.layout.addLayout(self.tasksLayout)
+
+        self.title = QLabel(" Tasky ©")
+        self.title.setStyleSheet("font-size:26px;font-family:Segoe Script;")
+        self.headerLayout.addWidget(self.title)
+        self.refreshButton = QPushButton("")
+        self.refreshButton.setFixedSize(30,30)
+        self.refreshButton.clicked.connect(self.refreshAll)
+        self.refreshButton.setIcon(QIcon('images/refresh-ico.png'))
+        self.refreshButton.setIconSize(QSize(25,25))
+        self.headerLayout.addWidget(self.refreshButton,alignment= Qt.AlignRight)
+
         self.setWindowTitle("Tasky")
+        self.setWindowIcon(QIcon('images/icon.png'))
 
-        tab = QTabWidget()
-        tab.addTab(TabTareasPendientes(),"Tareas pendientes")
-        tab.addTab(TabHistorial(),"Historial")
-        self.layout.addWidget(tab)
+        tabs = QTabWidget()
+        self.TabTareasPendientesObj = TabTareasPendientes()
+        self.TabHistorialObj = TabHistorial()
+        tabs.addTab(self.TabTareasPendientesObj,"Tareas pendientes")
+        tabs.addTab(self.TabHistorialObj,"Historial")
+        self.tasksLayout.addWidget(tabs)
 
-        self.setFixedSize(400,550)
+        self.setFixedSize(400,600)
         centralWidget = QWidget()
         centralWidget.setLayout(self.layout)
         self.setCentralWidget(centralWidget)
+
+    def refreshAll(self):
+        print("funka")
+        self.TabTareasPendientesObj.refreshTareasPendientes()
+        self.TabHistorialObj.refreshTabs()
 
 class Functions():
     def scrollArea(self,name):
@@ -39,42 +62,6 @@ class Functions():
         scroll.setFixedHeight(450)
   
         self.layout.addWidget(scroll)
-    
-    def getTareas(self):
-        self.limpiarScrollArea()
-        objetosTareas= []
-        for tarea in bddTareas.getTareas():
-            if tarea[4] == 0 and tarea[5] == 0:
-                tareaCompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
-                objetosTareas.append(tareaCompleta)
-            
-        for objTar in objetosTareas:
-            self.tasks_layout.addWidget(objTar)
-
-    def getTareasCompletas(self):
-        self.limpiarScrollArea()
-        objetosTareas= []
-        for tarea in bddTareas.getTareas():
-            if tarea[4] == 1 and tarea[5] == 0:
-                tareaCompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
-                tareaCompleta.destruirBotones()
-                objetosTareas.append(tareaCompleta)
-            
-        for objTar in objetosTareas:
-            self.tasks_layout.addWidget(objTar)
-
-    def getTareasIncompletas(self):
-        self.limpiarScrollArea()
-        objetosTareas= []
-        for tarea in bddTareas.getTareas():
-            if tarea[4] == 0 and tarea[5] == 1:
-                tareaIncompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
-                tareaIncompleta.destruirBotones()
-                objetosTareas.append(tareaIncompleta)
-            
-        for objTar in objetosTareas:
-            self.tasks_layout.addWidget(objTar)
-
 
     def limpiarScrollArea(self):
         for i in reversed(range(self.tasks_layout.count())): 
@@ -85,7 +72,7 @@ class TabTareasPendientes(QMainWindow,Functions):
         super().__init__()
         self.initTab()
         self.scrollArea('Tareas')
-        self.getTareas()
+        self.refreshTareasPendientes()
 
     def initTab(self):
         button_layout = QHBoxLayout()
@@ -93,13 +80,10 @@ class TabTareasPendientes(QMainWindow,Functions):
         self.layout.addLayout(button_layout)
         
         buttonAdd = QPushButton("Agregar tarea")
-        buttonRefresh = QPushButton("Refrescar")
-        buttonRefresh.clicked.connect(self.getTareas)
         buttonAdd.setFont(QFont("Dosis",10))
         buttonAdd.clicked.connect(self.showAddTask)
         
         button_layout.addWidget(buttonAdd)
-        button_layout.addWidget(buttonRefresh)
 
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
@@ -108,6 +92,17 @@ class TabTareasPendientes(QMainWindow,Functions):
     def showAddTask(self):
         self.win = interfaceAddTask()
         self.win.show()
+
+    def refreshTareasPendientes(self):
+        self.limpiarScrollArea()
+        objetosTareas= []
+        for tarea in bddTareas.getTareas():
+            if tarea[4] == 0 and tarea[5] == 0:
+                tareaCompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
+                objetosTareas.append(tareaCompleta)
+            
+        for objTar in objetosTareas:
+            self.tasks_layout.addWidget(objTar)
         
 class interfaceAddTask(QWidget):
     def __init__(self) -> None:
@@ -165,17 +160,22 @@ class TabHistorial(QMainWindow, Functions):
 
     def initTab(self):
         self.layout = QVBoxLayout()
-        #self.scrollArea('Historial de tareas')
-
+        
         tabs = QTabWidget()
 
-        tabs.addTab(tabCompletas(),"Completas")
-        tabs.addTab(tabIncompletas(),"Incompletas")
+        self.tabCompletasObj = tabCompletas()
+        self.tabIncompletasObj = tabIncompletas()
+        tabs.addTab(self.tabCompletasObj,"Completas")
+        tabs.addTab(self.tabIncompletasObj,"Incompletas")
         self.layout.addWidget(tabs)
 
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
         self.setCentralWidget(centralWidget)  
+
+    def refreshTabs(self):
+        self.tabCompletasObj.getTareasCompletas()
+        self.tabIncompletasObj.getTareasIncompletas()
 
 class tabCompletas(QMainWindow, Functions):
     def __init__(self) -> None:
@@ -191,6 +191,18 @@ class tabCompletas(QMainWindow, Functions):
         centralWidget.setLayout(self.layout) 
         self.setCentralWidget(centralWidget)
 
+    def getTareasCompletas(self):
+        self.limpiarScrollArea()
+        objetosTareas= []
+        for tarea in bddTareas.getTareas():
+            if tarea[4] == 1 and tarea[5] == 0:
+                tareaCompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
+                tareaCompleta.destruirBotones()
+                objetosTareas.append(tareaCompleta)
+            
+        for objTar in objetosTareas:
+            self.tasks_layout.addWidget(objTar)
+
 class tabIncompletas(QMainWindow,Functions):
     def __init__(self) -> None:
         super().__init__()
@@ -204,6 +216,18 @@ class tabIncompletas(QMainWindow,Functions):
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
         self.setCentralWidget(centralWidget)
+
+    def getTareasIncompletas(self):
+        self.limpiarScrollArea()
+        objetosTareas= []
+        for tarea in bddTareas.getTareas():
+            if tarea[4] == 0 and tarea[5] == 1:
+                tareaIncompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
+                tareaIncompleta.destruirBotones()
+                objetosTareas.append(tareaIncompleta)
+            
+        for objTar in objetosTareas:
+            self.tasks_layout.addWidget(objTar)
 
 if __name__ == '__main__':
     app = QApplication()

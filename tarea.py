@@ -105,7 +105,7 @@ class interfaceAddTask(QWidget):
     def initInterface(self):
         self.completado = False
         self.setGeometry(650,300,100,100)
-        self.setWindowTitle('Agregar tarea')
+        self.setWindowTitle('Repetir tarea')
 
         layout = QVBoxLayout()
         form_layout = QVBoxLayout()
