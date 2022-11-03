@@ -1,7 +1,6 @@
 from dataclasses import dataclass
-from winreg import DeleteValue
-import PySide6
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton, QFrame
+
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton, QLineEdit, QDateEdit, QTimeEdit
 from PySide6.QtGui import QFont, QColor
 from baseTarea import BaseTareas
 
@@ -94,7 +93,59 @@ class Tarea(QWidget):
         botonRepetir.clicked.connect(self.repetirTarea)
 
     def repetirTarea(self):
-        self.base.insert(self.titulo, self.hora, self.fecha)
+        self.win = interfaceAddTask(self.titulo)
+        self.win.show()
+
+class interfaceAddTask(QWidget):
+    def __init__(self, nombre) -> None:
+        super().__init__()
+        self.nombre = nombre
+        self.initInterface()
+    
+    def initInterface(self):
+        self.completado = False
+        self.setGeometry(650,300,100,100)
+        self.setWindowTitle('Agregar tarea')
+
+        layout = QVBoxLayout()
+        form_layout = QVBoxLayout()
+        buttons_layout = QHBoxLayout()
+        layout.addLayout(form_layout)
+        layout.addLayout(buttons_layout)
+
+        label = QLabel("Inserte en los campos los detalles de la tarea")
+
+        self.task = QLabel("Tarea:")
+        self.inputTitle = QLabel(self.nombre)
+
+        labelTime = QLabel('¿Cuándo y a qué hora quieres repetir esta tarea?')
+        self.inputDate = QDateEdit()
+        self.inputTime = QTimeEdit()
+        
+        buttonAddDb = QPushButton('Agregar')
+        buttonAddDb.clicked.connect(self.addDb)
+        buttonCancel = QPushButton('Cancelar')
+        buttonCancel.clicked.connect(self.close)
+
+        form_layout.addWidget(label)
+        form_layout.addWidget(self.task)
+        form_layout.addWidget(self.inputTitle)
+        form_layout.addWidget(labelTime)
+        form_layout.addWidget(self.inputDate)
+        form_layout.addWidget(self.inputTime)       
+
+        buttons_layout.addWidget(buttonAddDb)
+        buttons_layout.addWidget(buttonCancel)
+        
+        self.setLayout(layout)
+
+    def addDb(self):
+        self.tareas=BaseTareas()
+        self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
+        self.close()
+
+    def getCompletado(self):
+        return self.completado
 
 #Clase para poner la descripcion de la tarea en el widget
 @dataclass
