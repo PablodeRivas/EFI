@@ -90,7 +90,7 @@ class TabTareasPendientes(QMainWindow,Functions):
         self.setCentralWidget(centralWidget)
 
     def showAddTask(self):
-        self.win = interfaceAddTask()
+        self.win = interfaceAddTask(self)
         self.win.show()
 
     def refreshTareasPendientes(self):
@@ -105,8 +105,9 @@ class TabTareasPendientes(QMainWindow,Functions):
             self.tasks_layout.addWidget(objTar)
         
 class interfaceAddTask(QWidget):
-    def __init__(self) -> None:
+    def __init__(self, parent) -> None:
         super().__init__()
+        self.parent = parent
         self.initInterface()
     
     def initInterface(self):
@@ -147,6 +148,7 @@ class interfaceAddTask(QWidget):
     def addDb(self):
         self.tareas=BaseTareas()
         self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
+        self.parent.refreshTareasPendientes()
         self.close()
 
     def getCompletado(self):
