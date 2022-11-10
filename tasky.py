@@ -1,6 +1,7 @@
-from PySide6.QtWidgets import QApplication,QStackedLayout, QDateEdit, QTimeEdit, QMainWindow, QFormLayout, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QGroupBox, QTabWidget, QGridLayout, QScrollArea, QFrame
+from PySide6.QtWidgets import QApplication,QStackedLayout, QDateEdit, QTimeEdit, QMainWindow, QFormLayout, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QGroupBox, QTabWidget, QGridLayout, QScrollArea
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtCore import Qt, QSize
+from datetime import datetime
 
 from tarea import Tarea
 from baseTarea import BaseTareas
@@ -116,7 +117,7 @@ class interfaceAddTask(QWidget):
         self.setWindowTitle('Agregar tarea')
 
         layout = QVBoxLayout()
-        form_layout = QVBoxLayout()
+        self.form_layout = form_layout = QVBoxLayout()
         buttons_layout = QHBoxLayout()
         layout.addLayout(form_layout)
         layout.addLayout(buttons_layout)
@@ -126,6 +127,9 @@ class interfaceAddTask(QWidget):
         self.inputTitle.setPlaceholderText('Título de tarea')
 
         labelTime = QLabel('¿Cuándo y a qué hora debes realizar esta tarea?')
+        #buttonToday=QPushButton()
+        #buttonToday.clicked.connect(self.addDb)
+
         self.inputDate = QDateEdit()
         self.inputTime = QTimeEdit()
         
@@ -146,10 +150,16 @@ class interfaceAddTask(QWidget):
         self.setLayout(layout)
 
     def addDb(self):
-        self.tareas=BaseTareas()
-        self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
-        self.parent.refreshTareasPendientes()
-        self.close()
+        if self.inputTitle.text() == "" :
+            errorMessage=QLabel('La tarea debe tener título.')
+            errorMessage.setStyleSheet("color: red;font-weight:700;")
+            if len(self.findChildren(QLabel)) <3:
+                self.form_layout.addWidget(errorMessage) 
+        else:
+            self.tareas=BaseTareas()
+            self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
+            self.parent.refreshTareasPendientes()
+            self.close()
 
     def getCompletado(self):
         return self.completado
