@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from PySide6.QtWidgets import QWidget,QCalendarWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton, QLineEdit, QDateEdit, QTimeEdit
 from PySide6.QtGui import QFont, QColor
 from PySide6.QtCore import QTime
-from baseTarea import BaseTareas
+from database.baseTarea import BaseTareas
 
 @dataclass
 class Tarea(QWidget):

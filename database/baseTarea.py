@@ -1,4 +1,4 @@
-from database import Database
+from database.database import Database
 
 #Clase diseñada para interactuar con la base de datos, principalmente en la clase tarea
 class BaseTareas(Database):
