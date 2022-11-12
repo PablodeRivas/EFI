@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QApplication,QStackedLayout, QDateEdit, QTimeEdit, QMainWindow, QFormLayout, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QGroupBox, QTabWidget, QGridLayout, QScrollArea
+from PySide6.QtWidgets import QApplication,QStackedLayout, QDateEdit, QTimeEdit, QMainWindow, QFormLayout, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QGroupBox, QTabWidget, QCalendarWidget, QScrollArea
 from PySide6.QtGui import QFont, QIcon
-from PySide6.QtCore import Qt, QSize
+from PySide6.QtCore import Qt, QSize, QTime
 from datetime import datetime
 
 from tarea import Tarea
@@ -122,16 +122,17 @@ class interfaceAddTask(QWidget):
         layout.addLayout(form_layout)
         layout.addLayout(buttons_layout)
 
-        label = QLabel("Inserte en los campos los detalles de la tarea")
+        label = QLabel("Inserte el nombre de su tarea:")
         self.inputTitle = QLineEdit()
-        self.inputTitle.setPlaceholderText('Título de tarea')
+        self.inputTitle.setPlaceholderText('Título de la tarea')
 
-        labelTime = QLabel('¿Cuándo y a qué hora debes realizar esta tarea?')
-        #buttonToday=QPushButton()
-        #buttonToday.clicked.connect(self.addDb)
+        labelDate = QLabel('Seleccione la fecha de la tarea:')
+        labelTime= QLabel('Seleccione la hora de la tarea:')
 
-        self.inputDate = QDateEdit()
+        self.inputDate = QCalendarWidget()
+        self.inputDate.setGridVisible(True)
         self.inputTime = QTimeEdit()
+        self.inputTime.setTime(QTime(00, 00))
         
         buttonAddDb = QPushButton('Agregar')
         buttonAddDb.clicked.connect(self.addDb)
@@ -140,8 +141,9 @@ class interfaceAddTask(QWidget):
 
         form_layout.addWidget(label)
         form_layout.addWidget(self.inputTitle)
-        form_layout.addWidget(labelTime)
+        form_layout.addWidget(labelDate)
         form_layout.addWidget(self.inputDate)
+        form_layout.addWidget(labelTime)
         form_layout.addWidget(self.inputTime)       
 
         buttons_layout.addWidget(buttonAddDb)
@@ -157,7 +159,7 @@ class interfaceAddTask(QWidget):
                 self.form_layout.addWidget(errorMessage) 
         else:
             self.tareas=BaseTareas()
-            self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
+            self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.selectedDate().toString("dd/MM/yyyy"))
             self.parent.refreshTareasPendientes()
             self.close()
 
