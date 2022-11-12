@@ -96,7 +96,7 @@ class TabTareasPendientes(QMainWindow,Functions):
     def refreshTareasPendientes(self):
         self.limpiarScrollArea()
         objetosTareas= []
-        for tarea in bddTareas.getTareas():
+        for tarea in bddTareas.getTareasOrderByFecha():
             if tarea[4] == 0 and tarea[5] == 0:
                 tareaCompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
                 objetosTareas.append(tareaCompleta)

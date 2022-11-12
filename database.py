@@ -32,6 +32,15 @@ class Database:
 
     def select(self):
         conn = sqlite3.connect(f"{self.base}.db")
+        rs = conn.execute(f"SELECT * FROM {self.base}")
+        lista = []
+        for r in rs: 
+            lista.append(r)
+        conn.close()
+        return lista
+
+    def selectOrderByFecha(self):
+        conn = sqlite3.connect(f"{self.base}.db")
         rs = conn.execute(f"SELECT * FROM {self.base} ORDER BY Fecha")
         lista = []
         for r in rs: 

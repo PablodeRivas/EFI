@@ -19,6 +19,10 @@ class BaseTareas(Database):
         lista=super().select()
         return lista
 
+    def getTareasOrderByFecha(self):
+        lista = super().selectOrderByFecha()
+        return lista
+
     #Funcion que obtiene la id de una tarea
     def getIdByTitle(self,tituloTarea):
         tupla=super().select()
