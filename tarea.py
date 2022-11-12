@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton, QLineEdit, QDateEdit, QTimeEdit
+from PySide6.QtWidgets import QWidget,QCalendarWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton, QLineEdit, QDateEdit, QTimeEdit
 from PySide6.QtGui import QFont, QColor
+from PySide6.QtCore import QTime
 from baseTarea import BaseTareas
 
 @dataclass
@@ -113,25 +114,27 @@ class interfaceAddTask(QWidget):
         layout.addLayout(form_layout)
         layout.addLayout(buttons_layout)
 
-        label = QLabel("Inserte en los campos los detalles de la tarea")
 
-        self.task = QLabel("Tarea:")
+        self.task = QLabel("Tarea a repetir:")
         self.inputTitle = QLabel(self.nombre)
+        self.inputTitle.setStyleSheet("font-weight:700;")
 
-        labelTime = QLabel('¿Cuándo y a qué hora quieres repetir esta tarea?')
-        self.inputDate = QDateEdit()
+        labelDate = QLabel('Seleccione la fecha de la tarea:')
+        labelTime= QLabel('Seleccione la hora de la tarea:')
+        self.inputDate = QCalendarWidget()
         self.inputTime = QTimeEdit()
+        self.inputTime.setTime(QTime(00, 00))
         
         buttonAddDb = QPushButton('Agregar')
         buttonAddDb.clicked.connect(self.addDb)
         buttonCancel = QPushButton('Cancelar')
         buttonCancel.clicked.connect(self.close)
 
-        form_layout.addWidget(label)
         form_layout.addWidget(self.task)
         form_layout.addWidget(self.inputTitle)
-        form_layout.addWidget(labelTime)
+        form_layout.addWidget(labelDate)
         form_layout.addWidget(self.inputDate)
+        form_layout.addWidget(labelTime)
         form_layout.addWidget(self.inputTime)       
 
         buttons_layout.addWidget(buttonAddDb)
@@ -141,7 +144,7 @@ class interfaceAddTask(QWidget):
 
     def addDb(self):
         self.tareas=BaseTareas()
-        self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.text())
+        self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.selectedDate().toString("dd/MM/yyyy"))
         self.close()
 
     def getCompletado(self):

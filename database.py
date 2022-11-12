@@ -32,7 +32,7 @@ class Database:
 
     def select(self):
         conn = sqlite3.connect(f"{self.base}.db")
-        rs = conn.execute(f"SELECT * FROM {self.base}")
+        rs = conn.execute(f"SELECT * FROM {self.base} ORDER BY Fecha")
         lista = []
         for r in rs: 
             lista.append(r)

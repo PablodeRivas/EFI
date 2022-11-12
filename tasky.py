@@ -1,7 +1,6 @@
-from PySide6.QtWidgets import QApplication,QStackedLayout, QDateEdit, QTimeEdit, QMainWindow, QFormLayout, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QGroupBox, QTabWidget, QCalendarWidget, QScrollArea
+from PySide6.QtWidgets import QApplication, QTimeEdit, QMainWindow, QFormLayout, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QGroupBox, QTabWidget, QCalendarWidget, QScrollArea
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtCore import Qt, QSize, QTime
-from datetime import datetime
 
 from tarea import Tarea
 from baseTarea import BaseTareas
