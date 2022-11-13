@@ -137,7 +137,7 @@ class interfaceAddTask(QWidget):
         if self.inputTitle.text() == "" :
             errorMessage=QLabel('La tarea debe tener título.')
             errorMessage.setStyleSheet("color: red;font-weight:700;")
-            if len(self.findChildren(QLabel)) <3:
+            if len(self.findChildren(QLabel)) <4:
                 self.form_layout.addWidget(errorMessage) 
         else:
             self.tareas=BaseTareas()
