@@ -13,7 +13,7 @@ class Functions():
         scroll.setWidget(groupBox)
         scroll.setWidgetResizable(True)
         scroll.setFixedHeight(450)
-  
+        
         self.layout.addWidget(scroll)
 
     def limpiarScrollArea(self):

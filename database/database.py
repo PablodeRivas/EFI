@@ -10,7 +10,6 @@ class Database:
             sArgs = ""
             for arg in args: sArgs += arg + ", " 
             self.sArgs = sArgs[:-2]
-            print(f'Debugging ######## {self.sArgs=} #########')
             self.params = params = f"('id' integer primary key autoincrement, {self.sArgs})"
             try:
                 sql = f"create table {base} {params}"
@@ -25,7 +24,7 @@ class Database:
         conn = sqlite3.connect(f"{self.base}.db")
         if self.sArgs.startswith('id'): self.sArgs = self.sArgs[4:]
         sql = f"INSERT INTO {self.base}({self.sArgs}) VALUES {args}"
-        print(sql)
+
         conn.execute(sql)
         conn.commit()
         conn.close()
@@ -52,7 +51,7 @@ class Database:
         id = 0 if id=="" else id
         conn = sqlite3.connect(f"{self.base}.db")
         sql = f"DELETE FROM {self.base} WHERE id={id}"
-        #print(sql)
+
         rs = conn.execute(sql)
         conn.commit()
         conn.close()
@@ -60,7 +59,6 @@ class Database:
     def update(self, *args):
         #id = 0 if id=="" else id
         conn = sqlite3.connect(f"{self.base}.db")
-        print(self.fields)
         updating = f""
         for f in self.fields:
             updating += f"{f} = ?,"
@@ -68,7 +66,6 @@ class Database:
         id = args[0]
         sql = f"Update {self.base} set {updating} where id = {id}"
         columnValues = args[1:]
-        print(f'Debugging ######## {columnValues=} #########')
         conn.execute(sql, columnValues)
         conn.commit()
         conn.close()

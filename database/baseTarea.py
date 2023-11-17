@@ -41,18 +41,20 @@ class BaseTareas(Database):
         tupla=self.getEntrada(id)
         tupla=tupla[:-2]
         super().update(*tupla,1,0)
-  
-   
+
+
 if __name__ == '__main__':
-    tarea = BaseTareas()
+    pass
+    #tarea = BaseTareas()
+    
+    #Pruebas de funcionamiento de las funciones:
+
     #tarea.insert("Pasear al perro","10:00","12/10")
     #tarea.insert("Hacer la comida","11:30","12/10")
     #print(tarea.getEntrada(1))
     #ide=tarea.getIdByTitle("sos re tonto naza") 
     #print(ide)
     #print(tarea.getEntrada(ide))
-    for i in range(19,46):
-        tarea.delete(i)
     #tarea.cancelTask(ide)
     #print(tarea.getEntrada(ide))
     #id = input("Que tarea desea borrar? ")

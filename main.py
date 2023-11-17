@@ -45,7 +45,6 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(centralWidget)
 
     def refreshAll(self):
-        print("funka")
         self.TabTareasPendientesObj.refreshTareasPendientes()
         self.TabHistorialObj.refreshTabs()
 
