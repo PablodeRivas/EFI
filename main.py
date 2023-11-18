@@ -60,7 +60,6 @@ class TabTareasPendientes(QMainWindow,Functions):
         self.initTab()
         self.scrollArea('Tareas')
 
-
     def initTab(self):
         button_layout = QHBoxLayout()
         self.layout = QVBoxLayout()
@@ -87,7 +86,6 @@ class TabTareasPendientes(QMainWindow,Functions):
             if tarea[4] == 0 and tarea[5] == 0:
                 tareaCompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
                 objetosTareas.append(tareaCompleta)
-
         for objTar in objetosTareas:
             self.tasks_layout.addWidget(objTar)
 
@@ -101,6 +99,7 @@ class interfaceAddTask(QWidget):
         self.completado = False
         self.setGeometry(650,300,100,100)
         self.setWindowTitle('Agregar tarea')
+        self.setWindowIcon(QIcon('images/icon.png'))
 
         layout = QVBoxLayout()
         self.form_layout = form_layout = QVBoxLayout()

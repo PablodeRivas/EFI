@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from PySide6.QtWidgets import QWidget,QCalendarWidget, QHBoxLayout, QVBoxLayout, QMainWindow, QApplication, QLabel, QPushButton, QLineEdit, QDateEdit, QTimeEdit
-from PySide6.QtGui import QFont, QColor
+from PySide6.QtGui import QFont, QColor, QIcon
 from PySide6.QtCore import QTime
 from database.baseTarea import BaseTareas
 
@@ -120,7 +120,8 @@ class interfaceAddTask(QWidget):
     def initInterface(self):
         self.completado = False
         self.setGeometry(650,300,100,100)
-        self.setWindowTitle('Repetir tarea')
+        self.setWindowTitle('♻️Repetir tarea')
+        self.setWindowIcon(QIcon('images/icon.png'))
 
         layout = QVBoxLayout()
         form_layout = QVBoxLayout()
