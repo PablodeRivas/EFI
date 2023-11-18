@@ -29,13 +29,6 @@ class MainWindow(QMainWindow):
         self.title.setStyleSheet("font-size:26px;font-family:Segoe Script;")
         self.headerLayout.addWidget(self.title)
 
-        self.refreshButton = QPushButton("")
-        self.refreshButton.setFixedSize(30,30)
-        self.refreshButton.clicked.connect(self.refreshAll)
-        self.refreshButton.setIcon(QIcon('./images/refresh-ico.png'))
-        self.refreshButton.setIconSize(QSize(25,25))
-        self.headerLayout.addWidget(self.refreshButton,alignment= Qt.AlignRight)
-
         self.quitButton = QPushButton("")
         self.quitButton.setFixedSize(40,40)
         self.quitButton.clicked.connect(app.quit)
