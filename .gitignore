@@ -1,2 +1,5 @@
-pycache/
 __pycache__/
+main.spec
+build/
+dist/
+Tareas.db

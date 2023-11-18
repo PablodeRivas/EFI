@@ -93,11 +93,21 @@ class Tarea(QWidget):
         self.layout.addWidget(botonRepetir)
         botonRepetir.clicked.connect(self.repetirTarea)
 
+        self.botonBorrar = botonBorrar = QPushButton("❌")
+        botonBorrar.setFixedSize(30, 30)
+        self.layout.addWidget(self.botonBorrar)
+        botonBorrar.clicked.connect(self.deleteTarea)
+    
+    def deleteTarea(self):
+        self.base.delete(self.id)
+
     def repetirTarea(self):
         self.win = interfaceAddTask(self.titulo)
         self.win.show()
 
 class interfaceAddTask(QWidget):
+    #TODO: meterle el ícono de reciclaje
+
     def __init__(self, nombre) -> None:
         super().__init__()
         self.nombre = nombre
@@ -171,25 +181,3 @@ class DescripcionTarea(QWidget):
         self.addLabel(tiempo, "Franklin Gothic", 8)
         
         self.setLayout(layout)
-
-#MainWindow solo es creada para hacer pruebas de la clase, nunca es usada en el programa principal
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-
-        self.layout = layout = QHBoxLayout()
-        t = Tarea("Take out the trash", "16:00", "15/10/2022")
-        t.destruirBotones()
-        layout.addWidget(t)
-
-        centralWidget = QWidget()
-        centralWidget.setLayout(layout)
-        
-        self.setCentralWidget(centralWidget)
-        
-
-if __name__ == "__main__":
-    app = QApplication()
-    window = MainWindow()
-    window.show()
-    app.exec()

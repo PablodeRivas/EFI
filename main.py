@@ -16,21 +16,32 @@ class MainWindow(QMainWindow):
         self.layout = QVBoxLayout()
         self.headerLayout = QHBoxLayout()
         self.tasksLayout= QVBoxLayout()
+        
+        self.setWindowTitle("Tasky")
+        self.setWindowIcon(QIcon('images/icon.png'))
+
         self.layout.addLayout(self.headerLayout)
         self.layout.addLayout(self.tasksLayout)
-
+        #Esta parte requiere reestructura. Extraer todos los botones y demás.
+        #Idealmente, quedarían sólo los:
+        # self.<parte_de_la_ventana>.addwidget(<funcion_extraida>, etc)
         self.title = QLabel(" Tasky ©")
         self.title.setStyleSheet("font-size:26px;font-family:Segoe Script;")
         self.headerLayout.addWidget(self.title)
+
         self.refreshButton = QPushButton("")
         self.refreshButton.setFixedSize(30,30)
         self.refreshButton.clicked.connect(self.refreshAll)
-        self.refreshButton.setIcon(QIcon('images/refresh-ico.png'))
+        self.refreshButton.setIcon(QIcon('./images/refresh-ico.png'))
         self.refreshButton.setIconSize(QSize(25,25))
         self.headerLayout.addWidget(self.refreshButton,alignment= Qt.AlignRight)
 
-        self.setWindowTitle("Tasky")
-        self.setWindowIcon(QIcon('images/icon.png'))
+        self.quitButton = QPushButton("")
+        self.quitButton.setFixedSize(40,40)
+        self.quitButton.clicked.connect(app.quit)
+        self.quitButton.setIcon(QIcon('./images/exit-green-ico.png'))
+        self.quitButton.setIconSize(QSize(30,30))
+        self.headerLayout.addWidget(self.quitButton)
 
         tabs = QTabWidget()
         self.TabTareasPendientesObj = TabTareasPendientes()
@@ -140,7 +151,10 @@ class interfaceAddTask(QWidget):
                 self.form_layout.addWidget(errorMessage) 
         else:
             self.tareas=BaseTareas()
-            self.tareas.insert(self.inputTitle.text(),self.inputTime.text(),self.inputDate.selectedDate().toString("dd/MM/yyyy"))
+            self.tareas.insert(
+                self.inputTitle.text(),
+                self.inputTime.text(),
+                self.inputDate.selectedDate().toString("dd/MM/yyyy"))
             self.parent.refreshTareasPendientes()
             self.close()
 
@@ -172,6 +186,7 @@ class TabHistorial(QMainWindow, Functions):
         self.tabCompletasObj.getTareasCompletas()
         self.tabIncompletasObj.getTareasIncompletas()
 
+
 class tabCompletas(QMainWindow, Functions):
     def __init__(self) -> None:
         super().__init__()
@@ -197,6 +212,8 @@ class tabCompletas(QMainWindow, Functions):
             
         for objTar in objetosTareas:
             self.tasks_layout.addWidget(objTar)
+            
+
 
 class tabIncompletas(QMainWindow,Functions):
     def __init__(self) -> None:
@@ -223,6 +240,7 @@ class tabIncompletas(QMainWindow,Functions):
             
         for objTar in objetosTareas:
             self.tasks_layout.addWidget(objTar)
+
 
 if __name__ == '__main__':
     app = QApplication()
