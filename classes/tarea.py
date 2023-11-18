@@ -100,10 +100,14 @@ class Tarea(QWidget):
     
     def deleteTarea(self):
         self.base.delete(self.id)
+        self.deleteLater()
 
+    #De repetir la tarea, la original en base a la cual se usó se queda.
+    #De terminar la renovada, quedan las dos.
     def repetirTarea(self):
         self.win = interfaceAddTask(self.titulo)
         self.win.show()
+        
 
 class interfaceAddTask(QWidget):
     #TODO: meterle el ícono de reciclaje

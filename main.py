@@ -46,6 +46,7 @@ class MainWindow(QMainWindow):
         tabs = QTabWidget()
         self.TabTareasPendientesObj = TabTareasPendientes()
         self.TabHistorialObj = TabHistorial()
+        tabs.currentChanged.connect(self.refreshAll)
         tabs.addTab(self.TabTareasPendientesObj,"Tareas pendientes")
         tabs.addTab(self.TabHistorialObj,"Historial")
         self.tasksLayout.addWidget(tabs)
@@ -65,7 +66,7 @@ class TabTareasPendientes(QMainWindow,Functions):
         super().__init__()
         self.initTab()
         self.scrollArea('Tareas')
-        self.refreshTareasPendientes()
+
 
     def initTab(self):
         button_layout = QHBoxLayout()
@@ -93,10 +94,10 @@ class TabTareasPendientes(QMainWindow,Functions):
             if tarea[4] == 0 and tarea[5] == 0:
                 tareaCompleta = Tarea(tarea[1],tarea[2],tarea[3], tarea[0])
                 objetosTareas.append(tareaCompleta)
-            
+
         for objTar in objetosTareas:
             self.tasks_layout.addWidget(objTar)
-        
+
 class interfaceAddTask(QWidget):
     def __init__(self, parent) -> None:
         super().__init__()
@@ -165,11 +166,10 @@ class interfaceAddTask(QWidget):
 class TabHistorial(QMainWindow, Functions):
     def __init__(self) -> None:
         super().__init__()
-        self.initTab()    
+        self.initTab() 
 
     def initTab(self):
         self.layout = QVBoxLayout()
-        
         tabs = QTabWidget()
 
         self.tabCompletasObj = tabCompletas()
@@ -180,7 +180,8 @@ class TabHistorial(QMainWindow, Functions):
 
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
-        self.setCentralWidget(centralWidget)  
+        self.setCentralWidget(centralWidget) 
+        self.refreshTabs()
 
     def refreshTabs(self):
         self.tabCompletasObj.getTareasCompletas()
