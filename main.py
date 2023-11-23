@@ -1,3 +1,4 @@
+from datetime import datetime
 from PySide6.QtWidgets import QApplication, QTimeEdit, QMainWindow, QLabel,QHBoxLayout, QVBoxLayout, QWidget, QLineEdit, QPushButton, QTabWidget, QCalendarWidget
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtCore import Qt, QSize, QTime
@@ -6,7 +7,8 @@ from classes.tarea import Tarea
 from database.baseTarea import BaseTareas
 
 bddTareas = BaseTareas()
-
+tiempoActual= datetime.now()
+tiempoActual= tiempoActual.strftime("%A %w of %B")
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -15,12 +17,14 @@ class MainWindow(QMainWindow):
     def initGUI(self):
         self.layout = QVBoxLayout()
         self.headerLayout = QHBoxLayout()
+        self.timeLayout = QHBoxLayout()
         self.tasksLayout= QVBoxLayout()
         
         self.setWindowTitle("Tasky")
         self.setWindowIcon(QIcon('images/icon.png'))
 
         self.layout.addLayout(self.headerLayout)
+        self.layout.addLayout(self.timeLayout)
         self.layout.addLayout(self.tasksLayout)
         #Esta parte requiere reestructura. Extraer todos los botones y demás.
         #Idealmente, quedarían sólo los:
@@ -35,6 +39,12 @@ class MainWindow(QMainWindow):
         self.quitButton.setIcon(QIcon('./images/exit-green-ico.png'))
         self.quitButton.setIconSize(QSize(30,30))
         self.headerLayout.addWidget(self.quitButton)
+
+        self.hour = QLabel(f"Today is {tiempoActual}")
+        self.nada = QLabel("")
+        self.hour.setStyleSheet("font-size:15px;font-family:arial;")
+        self.timeLayout.addWidget(self.nada)
+        self.timeLayout.addWidget(self.hour)
 
         tabs = QTabWidget()
         self.TabTareasPendientesObj = TabTareasPendientes()
