@@ -7,8 +7,10 @@ from classes.tarea import Tarea
 from database.baseTarea import BaseTareas
 
 bddTareas = BaseTareas()
-tiempoActual= datetime.now()
-tiempoActual= tiempoActual.strftime("%A %w of %B")
+fechaActual= datetime.now()
+fechaActual= fechaActual.strftime("%A %w of %B")
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -30,7 +32,7 @@ class MainWindow(QMainWindow):
         #Idealmente, quedarían sólo los:
         # self.<parte_de_la_ventana>.addwidget(<funcion_extraida>, etc)
         self.title = QLabel(" Tasky ©")
-        self.title.setStyleSheet("font-size:26px;font-family:Segoe Script;")
+        self.title.setStyleSheet("font-size:26px;font:bold;font-family:Segoe Script;")
         self.headerLayout.addWidget(self.title)
 
         self.quitButton = QPushButton("")
@@ -40,10 +42,10 @@ class MainWindow(QMainWindow):
         self.quitButton.setIconSize(QSize(30,30))
         self.headerLayout.addWidget(self.quitButton)
 
-        self.hour = QLabel(f"Today is {tiempoActual}")
-        self.nada = QLabel("")
+        self.hour = QLabel(f"  {fechaActual}")
+        #self.nada = QLabel("")
         self.hour.setStyleSheet("font-size:15px;font-family:arial;")
-        self.timeLayout.addWidget(self.nada)
+        #self.timeLayout.addWidget(self.nada)
         self.timeLayout.addWidget(self.hour)
 
         tabs = QTabWidget()
@@ -54,7 +56,7 @@ class MainWindow(QMainWindow):
         tabs.addTab(self.TabHistorialObj,"Historial")
         self.tasksLayout.addWidget(tabs)
 
-        self.setFixedSize(400,600)
+        self.setFixedSize(400,620)
         centralWidget = QWidget()
         centralWidget.setLayout(self.layout)
         self.setCentralWidget(centralWidget)
@@ -108,7 +110,7 @@ class interfaceAddTask(QWidget):
     def initInterface(self):
         self.completado = False
         self.setGeometry(650,300,100,100)
-        self.setWindowTitle('Agregar tarea')
+        self.setWindowTitle('Agregar nueva tarea')
         self.setWindowIcon(QIcon('images/icon.png'))
 
         layout = QVBoxLayout()
@@ -199,7 +201,6 @@ class tabCompletas(QMainWindow, Functions):
         self.layout = QVBoxLayout()
         self.scrollArea("")
         self.getTareasCompletas()
-        
         centralWidget = QWidget() 
         centralWidget.setLayout(self.layout) 
         self.setCentralWidget(centralWidget)
@@ -215,7 +216,6 @@ class tabCompletas(QMainWindow, Functions):
             
         for objTar in objetosTareas:
             self.tasks_layout.addWidget(objTar)
-            
 
 
 class tabIncompletas(QMainWindow,Functions):
