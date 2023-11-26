@@ -8,7 +8,7 @@ from database.baseTarea import BaseTareas
 
 bddTareas = BaseTareas()
 fechaActual= datetime.now()
-fechaActual= fechaActual.strftime("%A %w of %B")
+fechaActual= fechaActual.strftime("%A %d of %B")
 
 
 class MainWindow(QMainWindow):
